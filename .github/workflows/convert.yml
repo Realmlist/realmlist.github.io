@@ -1,0 +1,30 @@
+name: clone
+on:  
+  schedule:    
+    - cron:  '*/5 * * * *'
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+jobs:        
+  Main:      
+    name: main
+    runs-on: ubuntu-20.04
+    steps:
+      - name : init
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install ffmpeg -y
+          echo "<center><h1>404 NOT FOUND</h1></center>" > public/404.html
+      - name: clone
+        run: |                                                            
+          curl -L -o vrcccalendar.png "https://dashboard.vtvr.eu/vrcccalendar.png"                           
+          ffmpeg -framerate 1 -i vrcccalendar.png -vframes 1 -vf "scale=1024:2800" -vcodec libx264 -pix_fmt yuv420p -crf 1 -r 60 vrcccalendar.mp4    
+          sudo rm *.png          
+      - name: gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+               github_token: ${{ secrets.GITHUB_TOKEN }}
+               publish_branch: main
+               publish_dir: ./
+               force_orphan: false
