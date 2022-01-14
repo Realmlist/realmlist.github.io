@@ -15,7 +15,7 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install ffmpeg -y
-          echo "<center><h1>404 NOT FOUND</h1></center>" > public/404.html
+          echo "<center><h1>404 NOT FOUND</h1></center>" > 404.html
       - name: clone
         run: |                                                            
           curl -L -o vrcccalendar.png "https://dashboard.vtvr.eu/vrcccalendar.png"                           
